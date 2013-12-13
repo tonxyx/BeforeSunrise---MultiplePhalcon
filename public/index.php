@@ -2,135 +2,47 @@
 
 error_reporting(E_ALL);
 
-class Application extends \Phalcon\Mvc\Application {
+try {
+    /**
+     * Read the configuration
+     */
+    $config = include __DIR__ . "/../app/config/config.php";
 
     /**
-     * Register the services here to make them general or register in the ModuleDefinition to make them module-specific
+     * Read auto-loader
      */
-    protected function _registerServices() {
+    include __DIR__ . "/../app/config/loader.php";
 
-        $di = new \Phalcon\DI\FactoryDefault();
+    /**
+     * Read services
+     */
+    include __DIR__ . "/../app/config/services.php";
 
-        $loader = new \Phalcon\Loader();
+    /**
+     * Handle the request
+     */
+    $application = new \Phalcon\Mvc\Application();
+    $application->setDI($di);
 
-        /**
-         * We're a registering a set of directories taken from the configuration file
-         */
-        $loader->registerDirs(
-                array(
-                    __DIR__ . '/../apps/library/' //$config->application->libraryDir
-                )
-        )->register();
-
-        /**
-         * Register a user component
-         */
-        $di->set('elements', function() {
-            return new Elements();
-        });
-
-        /**
-         * The URL component is used to generate all kind of urls in the application
-         */
-        $di->set('url', function() {
-            $url = new \Phalcon\Mvc\Url();
-            $url->setBaseUri('/multiple-shared-views/');
-            return $url;
-        });
-
-        /**
-         * Registering a router
-         */
-        $di->set('router', function() {
-
-            $router = new \Phalcon\Mvc\Router();
-
-            $router->setDefaultModule("frontend");
-
-            $router->add('/:controller/:action', array(
-                'module' => 'frontend',
-                'controller' => 1,
-                'action' => 2,
-            ));
-            
-            $router->add("/admin/:controller/:action", array(
-                'module' => 'backend',
-                'controller' => 1,
-                'action' => 2,
-            ));
-
-            $router->add("/login/:action", array(
-                'module' => 'backend',
-                'controller' => 'session',
-                'action' => 'index',
-            ));
-
-            $router->add("/session/:action", array(
-                'module' => 'backend',
-                'controller' => 'session',
-                'action' => 1,
-            ));
-
-            $router->add("/login", array(
-                'module' => 'backend',
-                'controller' => 'login',
-                'action' => 'index',
-            ));
-
-            $router->add("/products/:action", array(
-                'module' => 'backend',
-                'controller' => 'products',
-                'action' => 1,
-            ));
-
-            return $router;
-        });
-
-        /**
-         * Start the session the first time some component request the session service
-         */
-        $di->set('session', function() {
-            $session = new Phalcon\Session\Adapter\Files();
-            $session->start();
-            return $session;
-        });
-
-        /**
-         * Register the flash service with custom CSS classes
-         */
-        $di->set('flash', function() {
-            return new Phalcon\Flash\Direct(array(
-                'error' => 'alert alert-error',
-                'success' => 'alert alert-success',
-                'notice' => 'alert alert-info',
-            ));
-        });
-
-        $this->setDI($di);
-    }
-
-    public function main() {
-
-        $this->_registerServices();
-
-        /**
-         * Register the installed modules
-         */
-        $this->registerModules(array(
+    $application->registerModules(
+        array(
             'frontend' => array(
-                'className' => 'Multiple\Frontend\Module',
-                'path' => '../apps/frontend/Module.php'
+                'className' => 'Frontend\Module',
+                'path' => '../app/frontend/Module.php',
             ),
-            'backend' => array(
-                'className' => 'Multiple\Backend\Module',
-                'path' => '../apps/backend/Module.php'
+            'admin' => array(
+                'className' => 'Admin\Module',
+                'path' => '../app/admin/Module.php',
             )
-        ));
+        )
+    );
 
-        echo $this->handle()->getContent();
-    }
+    //set_exception_handler('\Bitfalls\Exceptions\Handler::handle');
 
+    echo $application->handle()->getContent();
+
+} catch (Phalcon\Exception $e) {
+    echo $e->getMessage();
+} catch (PDOException $e) {
+    echo $e->getMessage();
 }
-
-$application = new Application();
-$application->main();
