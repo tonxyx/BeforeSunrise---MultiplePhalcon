@@ -1,12 +1,19 @@
 <?php
 
-namespace Admin;
+namespace Bitfalls\Phalcon;
 
 use Phalcon\Dispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 
-class Module implements ModuleDefinitionInterface{
+/**
+ * This is an extensible Module configurator for Multi Module apps. Just extend and give it a namespace
+ * equal to module name, and it should work.
+ *
+ * Class ModuleConfig
+ */
+class ModuleConfig implements ModuleDefinitionInterface
+{
 
     /** @var string */
     protected $sReflectionPath = '';
@@ -18,17 +25,16 @@ class Module implements ModuleDefinitionInterface{
     }
 
     /**
-     * Register the services here to make them module-specific
+     * Register specific services for the module
      */
-    public function registerServices($di) {
-
+    public function registerServices($di)
+    {
 
         /** @var Dispatcher $dispatcher */
         $dispatcher = $di->get('dispatcher');
-        $sModuleNameArray = explode(DIRECTORY_SEPARATOR, trim($this->getReflectionPath(), '\\'));
-//DORADITI UNIVERZALNO ---> Riješeno (greška je u \\ u prijašnjem trimu)
-        $sModuleName = array_pop($sModuleNameArray);
-        
+        $sModuleName = explode(DIRECTORY_SEPARATOR, trim($this->getReflectionPath(), '/'));
+        $sModuleName = array_pop($sModuleName);
+        var_dump($sModuleName);
         $dispatcher->setDefaultNamespace(ucfirst($sModuleName)."\Controllers\\");
         $di->set('dispatcher', $dispatcher);
 
@@ -53,7 +59,7 @@ class Module implements ModuleDefinitionInterface{
         if (!$this->mConfig) {
             if (!$sPath) {
                 $sPath = $this->getReflectionPath() . '/config/config.php';
-    }
+            }
             if (is_readable($sPath)) {
                 $this->mConfig = include_once $sPath;
             }
@@ -69,7 +75,7 @@ class Module implements ModuleDefinitionInterface{
         if (empty($this->sReflectionPath)) {
             $oReflectionClass = new \ReflectionClass($this);
             $this->sReflectionPath = str_replace('Module.php', '', $oReflectionClass->getFileName());
-}
+        }
         return $this->sReflectionPath;
     }
 }

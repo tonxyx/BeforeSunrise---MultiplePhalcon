@@ -28,9 +28,9 @@ class Elements extends Phalcon\Mvc\User\Component
             ),
         ),
         'pull-right' => array(
-            'session' => array(
+            'users' => array(
                 'caption' => 'Log In',
-                'action' => 'index'
+                'action' => 'login'
             ),
         )
     );
@@ -68,9 +68,9 @@ class Elements extends Phalcon\Mvc\User\Component
 
         $auth = $this->session->get('auth');
         if ($auth) {
-            $this->_headerMenu['pull-right']['session'] = array(
+            $this->_headerMenu['pull-right']['users'] = array(
                 'caption' => 'Log Out',
-                'action' => 'end'
+                'action' => 'logout'
             );
         } else {
             unset($this->_headerMenu['pull-left']['products']);

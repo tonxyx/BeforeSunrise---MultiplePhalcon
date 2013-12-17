@@ -26,7 +26,8 @@ class Module implements ModuleDefinitionInterface{
         /** @var Dispatcher $dispatcher */
         $dispatcher = $di->get('dispatcher');
         $sModuleNameArray = explode(DIRECTORY_SEPARATOR, trim($this->getReflectionPath(), '\\'));
-//DORADITI UNIVERZALNO --- Riješeno (greška je u \\ u prijašnjem trimu)
+        
+//DORADITI UNIVERZALNO ---> Riješeno (greška je u \\ u prijašnjem trimu)
         $sModuleName = array_pop($sModuleNameArray);
         
         $dispatcher->setDefaultNamespace(ucfirst($sModuleName)."\Controllers\\");

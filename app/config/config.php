@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Development environments
@@ -26,6 +27,7 @@ return new \Phalcon\Config(array(
     'application' => array(
         'controllersDir' => __DIR__ . '/../../app/controllers/',
         'modelsDir' => __DIR__ . '/../../app/models/',
+        'modelsFrontendDir' => __DIR__ . '/../../app/frontend/models/',
         'viewsDir' => __DIR__ . '/../../app/views/',
         'viewsDir_frontend' => __DIR__ . '/../../app/frontent/views/',
         'viewsDir_admin' => __DIR__ . '/../../app/admin/views/',

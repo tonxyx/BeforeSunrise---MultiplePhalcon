@@ -2,8 +2,8 @@
 
 use Phalcon\DI\FactoryDefault,
     Phalcon\Mvc\View,
-    //Bitfalls\Phalcon\Security,
-    Phalcon\Security as Security,
+    Bitfalls\Phalcon\Security,
+    //Phalcon\Security as Security,
     Phalcon\Mvc\Url as UrlResolver,
     Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
     Phalcon\Mvc\View\Engine\Volt as VoltEngine,
@@ -108,7 +108,7 @@ $di->set('dispatcher', function () use ($di) {
     $eventsManager = $di->getShared('eventsManager');
 
     $security = new Security($di);
-
+    
     /**
      * We listen for events in the dispatcher using the Security plugin
      */
@@ -116,17 +116,17 @@ $di->set('dispatcher', function () use ($di) {
 
     $dispatcher = new Phalcon\Mvc\Dispatcher();
     $dispatcher->setEventsManager($eventsManager);
-
+    
     return $dispatcher;
 });
 
-$di->set('router', function () use ($aModules) {
+$di->set('router', function() use ($aModules) {
 
     $router = new \Phalcon\Mvc\Router();
     $router->removeExtraSlashes(true);
-
+    
     $router->setDefaultModule($aModules[0]);
-
+    
     foreach ($aModules as $i => &$sModule) {
 
         $aDefaults = array(
