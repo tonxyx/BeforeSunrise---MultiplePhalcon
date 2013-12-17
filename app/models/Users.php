@@ -70,6 +70,12 @@ class Users extends \Bitfalls\Phalcon\Model
      *
      */
     protected $main_contact_id;
+    
+    /**
+     * @var integer
+     *
+     */
+    protected $role;
 
     /** @var  Users */
     protected static $oCurrent;
@@ -115,6 +121,15 @@ class Users extends \Bitfalls\Phalcon\Model
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+    
+    /**
+     * @param $role
+     * @return $this
+     */
+    public function setRole($role){
+        $this->role = $role;
         return $this;
     }
 
@@ -261,6 +276,15 @@ class Users extends \Bitfalls\Phalcon\Model
         return $this->id;
     }
 
+    /**
+     * Returns the value of field role
+     * 
+     * @return integer
+     */
+    public function getRole(){
+        return $this->role;
+    }
+    
     /**
      * Returns the value of field username
      *

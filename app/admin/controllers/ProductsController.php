@@ -2,7 +2,8 @@
 
 namespace Admin\Controllers;
 
-use Admin\Models\ProductTypes as ProductTypes,
+use ProductTypes,
+        Products,
         Phalcon\Tag,
         Phalcon\Mvc\Model\Criteria;
 

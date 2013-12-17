@@ -94,22 +94,20 @@ class Security extends Plugin
         );
 
         $aUserRoleSlugs = array();
-        if ($sModuleName != 'frontend') {
+        //if ($sModuleName != 'frontend') {
             /** @var \UsersRoles $oUR */
-            foreach (Users::getCurrent()->usersRoles as $oUR) {
+           /* foreach (Users::getCurrent()->usersRoles as $oUR) {
                 $aUserRoleSlugs[] = $oUR->getRoleSlug();
                 $aUserRoleSlugs = array_unique($aUserRoleSlugs);
-            }
-        }
+            }*/
 
-        if (isset($acl[$sModuleName]) && $acl[$sModuleName] != '*') {
+        /*if (isset($acl[$sModuleName]) && $acl[$sModuleName] != '*') {
             $aPermissions = (array)$acl[$sModuleName];
             if (array_intersect($aUserRoleSlugs, $aPermissions) == array()) {
                 throw new \Exception('You do not have sufficient permissions to access this part of the website.');
             }
-        }
-
-
+        
+            }
+        }*/
     }
-
 }

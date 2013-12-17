@@ -5,6 +5,8 @@
  *
  * Helps to build UI elements for the application
  */
+use \Users;
+
 class Elements extends Phalcon\Mvc\User\Component
 {
 
@@ -65,13 +67,33 @@ class Elements extends Phalcon\Mvc\User\Component
      */
     public function getMenu()
     {
-
         $auth = $this->session->get('auth');
+        
+        
+        /*<?php if (Users::getCurrent() && Users::getCurrent()->hasSelfRole('admin')) : ?>
+                <p class="navbar-text pull-right">
+                    <a href="/admin" title="Administration">Administration</a>
+                </p>
+            <?php endif; ?>*/
         if ($auth) {
             $this->_headerMenu['pull-right']['users'] = array(
                 'caption' => 'Log Out',
                 'action' => 'logout'
             );
+            /**
+             * Dodano za provjeru korisnika... treba realizirati menije prema user roles
+             */
+            
+           if (Users::getCurrent())
+            {
+               if(Users::getCurrent()->getRole() != 1){
+                     unset($this->_headerMenu['pull-left']['kontakt']);
+                }
+                else {
+                    unset($this->_headerMenu['pull-left']['about'], $this->_headerMenu['pull-left']['products']);
+                    $this->getTabs();
+                }
+            }
         } else {
             unset($this->_headerMenu['pull-left']['products']);
         }
@@ -86,7 +108,18 @@ class Elements extends Phalcon\Mvc\User\Component
                 } else {
                     echo '<li>';
                 }
-                echo Phalcon\Tag::linkTo($controller.'/'.$option['action'], $option['caption']);
+                if (Users::getCurrent())
+                {
+                if(Users::getCurrent()->getRole() != 1){
+                     echo Phalcon\Tag::linkTo($controller.'/'.$option['action'], $option['caption']);
+                }
+                else{
+                    echo Phalcon\Tag::linkTo('admin/'.$controller.'/'.$option['action'], $option['caption']);
+                }
+            }
+            else{
+                    echo Phalcon\Tag::linkTo($controller.'/'.$option['action'], $option['caption']);
+                }
                 echo '</li>';
             }
             echo '</ul>';
@@ -105,7 +138,10 @@ class Elements extends Phalcon\Mvc\User\Component
             } else {
                 echo '<li>';
             }
-            echo Phalcon\Tag::linkTo($option['controller'].'/'.$option['action'], $caption), '<li>';
+            /**
+             * Prilagođeno za admin.... samo testiranje
+             */
+            echo Phalcon\Tag::linkTo('admin/'.$option['controller'].'/'.$option['action'], $caption), '<li>';
         }
         echo '</ul>';
     }

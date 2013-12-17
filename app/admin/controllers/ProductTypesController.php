@@ -3,7 +3,9 @@
 namespace Admin\Controllers;
 
 use Phalcon\Tag;
-use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Mvc\Model\Criteria,
+    ProductTypes,
+        Phalcon\Paginator\Adapter\Model as ModelPage;
 
 class ProductTypesController extends ControllerBase {
 
@@ -34,7 +36,7 @@ class ProductTypesController extends ControllerBase {
             return $this->forward("producttypes/index");
         }
 
-        $paginator = new Phalcon\Paginator\Adapter\Model(array(
+        $paginator = new ModelPage(array(
             "data" => $productTypes,
             "limit" => 10,
             "page" => $numberPage

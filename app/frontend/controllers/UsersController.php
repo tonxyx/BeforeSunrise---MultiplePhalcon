@@ -612,7 +612,16 @@ class UsersController extends ControllerBase
                                 $oRs = new \RememberedSessions();
                                 $oRs->setRememberMeCookie($sUsername);
                             }
-                            $this->response->redirect('/DitusCore/', true);
+                          /**
+                           * User role koji odreduje dali je admin ili obicni korisnik
+                           */  
+                             if($oRequestedUser->getRole() == 1){
+                                    $this->response->redirect('admin');
+                                }
+                                else{
+                                    $this->response->redirect();
+                                }
+                            
                         } else {
                             throw new UserException('Invalid credentials', 001);
                         }
@@ -625,7 +634,7 @@ class UsersController extends ControllerBase
                     $this->view->setVar('errorCode', $e->getCode());
                     $this->view->setVar('stackTrace', $e->getTraceAsString());
                 }
-
+                
             }
     }
 }

@@ -32,6 +32,7 @@ class Module implements ModuleDefinitionInterface{
         $dispatcher->setDefaultNamespace(ucfirst($sModuleName)."\Controllers\\");
         $di->set('dispatcher', $dispatcher);
 
+        
         //Registering the view component
         /** @var View $view */
         $view = $di->get('view');
