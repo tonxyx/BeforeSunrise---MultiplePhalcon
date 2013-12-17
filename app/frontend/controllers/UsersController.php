@@ -596,10 +596,10 @@ class UsersController extends ControllerBase
                     );
                     
                    if ($oRequestedUser) {
-                       var_dump(Users::hashPassword($sPassword, $sUsername));
-                       var_dump($oRequestedUser->getPassword());
                        
-                        if (Users::hashPassword($sPassword, $sUsername) == $oRequestedUser->getPassword()) {
+                       //var_dump(Users::hashPassword($sPassword, $sUsername));
+                       
+                        if (Users::hashPassword($sPassword) == $oRequestedUser->getPassword()) {
                             $sUserHash = $oRequestedUser->getLoginSessionHash();
                             $aSessionData = array(
                                 'userhash' => $sUserHash,
