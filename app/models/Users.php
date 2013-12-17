@@ -163,9 +163,9 @@ class Users extends \Bitfalls\Phalcon\Model
      * @param $sUsername
      * @return string
      */
-    public static function hashPassword($sPassword, $sUsername)
+    public static function hashPassword($sPassword/*, $sUsername*/)
     {
-        return /*'098f6bcd4621d373cade4e832627b4f6';*/ hash('MD5', $sPassword);
+        return hash('MD5', $sPassword);
     }
 
     /**
