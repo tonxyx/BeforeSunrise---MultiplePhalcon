@@ -1,7 +1,5 @@
 <?php
 
-namespace Admin\Models;
-
 class Products extends \Phalcon\Mvc\Model
 {
     /**

@@ -1,21 +1,23 @@
 <?php use Phalcon\Tag as Tag ?>
 
+<?php echo Tag::form("products/save") ?>
+
+<ul class="pager">
+    <li class="previous pull-left">
+        <?php echo Tag::linkTo(array("products", "&larr; Go Back")) ?>
+    </li>
+    <li class="pull-right">
+        <?php echo Tag::submitButton(array("Save", "class" => "btn btn-success")) ?>
+    </li>
+</ul>
+
 <?php echo $this->getContent() ?>
 
-<div align="right">
-    <?php echo Tag::linkTo(array("products/new", "Create Products", "class" => "btn btn-primary")) ?>
-</div>
-
-<?php echo Tag::form(array("products/search", "autocomplete" => "off")) ?>
-
 <div class="center scaffold">
+    <h2>Edit products</h2>
 
-    <h2>Search products</h2>
 
-    <div class="clearfix">
-        <label for="id">Id</label>
-        <?php echo Tag::textField(array("id", "size" => 10, "maxlength" => 10, "type" => "number")) ?>
-    </div>
+    <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
 
     <div class="clearfix">
         <label for="product_types_id">Product Type</label>
@@ -37,10 +39,5 @@
         <?php echo Tag::selectStatic(array("active", array('Y'=>'Y','N'=>'N',), "useDummy" => true)) ?>
     </div>
 
-    <div class="clearfix">
-        <?php echo Tag::submitButton(array("Search", "class" => "btn btn-primary")) ?></td>
-    </div>
-
+    </form>
 </div>
-
-</form>
